@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 using System.Text;
 using DataStructureCore;
 
@@ -145,7 +145,7 @@ namespace BinaryTreeExamples
 
         public static bool UpPath(BinNode<int> root)
         {
-            if(root==nulll)
+            if(root==null)
                 return false;
             if(IsLeaf(root))
                 return true;
@@ -281,6 +281,64 @@ namespace BinaryTreeExamples
 
         }
 
+        public static void BreadthSearch<T>(BinNode<T> root)
+        {
+            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+            BinNode<T> node;
+            queue.Insert(root);
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                Console.WriteLine(node.GetValue());
+                if (node.HasLeft())
+                    queue.Insert(node.GetLeft());
+                if (node.HasRight())
+                    queue.Insert(node.GetRight());
+
+            }
+        }
+        #endregion
+
+        public static int MaxBreadthSearch(BinNode<int> root)
+        {
+            int max = root.GetValue();
+            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            queue.Insert(root);
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                //Console.WriteLine(node.GetValue());
+                if (node.GetValue() > max)
+                    max = node.GetValue();
+                if (node.HasLeft())
+                    queue.Insert(node.GetLeft());
+                if (node.HasRight())
+                    queue.Insert(node.GetRight());
+
+            }
+            return max;
+        }
+
+        public static int WihichLevel(BinNode<int> root, int x)
+        {
+            int count = 0;
+            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                if (node.GetValue() == x)
+                    return count;
+                if (node.HasLeft())
+                    queue.Insert(node.GetLeft());
+                count++;
+                if (node.HasRight())
+                    queue.Insert(node.GetRight());
+                count++;
+            }
+            return -1;
+        }
         /// <summary>
         /// עמ 176 שאלה 9 מהספר
         /// </summary>
