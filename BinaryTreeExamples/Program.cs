@@ -9,10 +9,7 @@ namespace BinaryTreeExamples
         {
 
 
-            BinNode<int> root = new BinNode<int>(54);
-             BinNode<int> left = new BinNode<int>(null, 77, new BinNode<int>(55));
-             BinNode<int> right = new BinNode<int>(new BinNode<int>(63), 48, null);
-
+          
 
             //  BinNode<int> root = new BinNode<int>(54);
             //  BinNode<int> left = new BinNode<int>(null, 77, new BinNode<int>(55));

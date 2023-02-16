@@ -325,6 +325,7 @@ namespace BinaryTreeExamples
             int count = 0;
             Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
             BinNode<int> node;
+            queue.Insert(root);
             while (!queue.IsEmpty())
             {
                 node = queue.Remove();
