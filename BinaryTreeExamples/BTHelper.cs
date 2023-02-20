@@ -356,6 +356,12 @@ namespace BinaryTreeExamples
 
             }
 
+        public static int DiffrenceBetweenLeven(BinNode<int> root,int x, int y)
+        {
+            x= WhichLevel(root,x);
+            y= WhichLevel(root,y);
+            return x - y;
+        }
         public static void PrintInLevel<T>(BinNode<T> root, T x)
         {
             if (root == null)
@@ -386,12 +392,44 @@ namespace BinaryTreeExamples
                 }
             }
         }
+        public static void PrintEvenLevel<T>(BinNode<T> root)
+        {
+            if (root == null)
+                Console.WriteLine("null");
+            int level = 0;
+            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+            BinNode<T> node;
+            Queue<int> levels = new Queue<int>();
+            queue.Insert(root);
+            levels.Insert(level);
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                //נשלוף את הרמה של הצומת
+                level = levels.Remove();
+                if (level%2==0)
+                    Console.WriteLine(node.GetValue());
+                if (node.HasRight())
+                {
+                    queue.Insert(node.GetRight());
+                    levels.Insert(level + 1);
+                }
+                if (node.HasLeft())
+                {
+                    queue.Insert(node.GetLeft());
+                    //נכניס את הרמה הבאה
+                    levels.Insert(level + 1);
+                }
+               
+            }
+        }
 
-            /// <summary>
-            /// עמ 176 שאלה 9 מהספר
-            /// </summary>
-            /// <param name="root"></param>
-            public static void UpdateCharTree(BinNode<char> root)
+
+        /// <summary>
+        /// עמ 176 שאלה 9 מהספר
+        /// </summary>
+        /// <param name="root"></param>
+        public static void UpdateCharTree(BinNode<char> root)
         {
 
             if (root != null)
