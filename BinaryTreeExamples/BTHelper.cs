@@ -320,31 +320,78 @@ namespace BinaryTreeExamples
             return max;
         }
 
-        public static int WihichLevel(BinNode<int> root, int x)
+       public static int WhichLevel<T>(BinNode<T> root, T x)
+            {
+                if (root == null)
+                    return -1;
+                int level = 0;
+                Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+                BinNode<T> node;
+                Queue<int> levels = new Queue<int>();
+                queue.Insert(root);
+                levels.Insert(level);
+                while (!queue.IsEmpty())
+                {
+                    node = queue.Remove();
+                    //נשלוף את הרמה של הצומת
+                    level = levels.Remove();
+                    if (node.GetValue().Equals(x))
+                        return level;
+                    if (node.HasLeft())
+                    {
+                        queue.Insert(node.GetLeft());
+                        //נכניס את הרמה הבאה
+                        levels.Insert(level + 1);
+                    }
+                    if (node.HasRight())
+                    {
+                        queue.Insert(node.GetRight());
+                        levels.Insert(level + 1);
+                    }
+
+
+                }
+                return -1;
+
+
+            }
+
+        public static void PrintInLevel<T>(BinNode<T> root, T x)
         {
-            int count = 0;
-            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
-            BinNode<int> node;
+            if (root == null)
+                Console.WriteLine("null");
+            int level = 0;
+            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+            BinNode<T> node;
+            Queue<int> levels = new Queue<int>();
             queue.Insert(root);
+            levels.Insert(level);
             while (!queue.IsEmpty())
             {
                 node = queue.Remove();
-                if (node.GetValue() == x)
-                    return count;
+                //נשלוף את הרמה של הצומת
+                level = levels.Remove();
+                if (level.Equals(x))
+                    Console.WriteLine(node.GetValue());
                 if (node.HasLeft())
+                {
                     queue.Insert(node.GetLeft());
-                count++;
+                    //נכניס את הרמה הבאה
+                    levels.Insert(level + 1);
+                }
                 if (node.HasRight())
+                {
                     queue.Insert(node.GetRight());
-                count++;
+                    levels.Insert(level + 1);
+                }
             }
-            return -1;
         }
-        /// <summary>
-        /// עמ 176 שאלה 9 מהספר
-        /// </summary>
-        /// <param name="root"></param>
-        public static void UpdateCharTree(BinNode<char> root)
+
+            /// <summary>
+            /// עמ 176 שאלה 9 מהספר
+            /// </summary>
+            /// <param name="root"></param>
+            public static void UpdateCharTree(BinNode<char> root)
         {
 
             if (root != null)
@@ -605,7 +652,6 @@ namespace BinaryTreeExamples
     #endregion
     #endregion
 
-
-
+   
 
 }

@@ -9,13 +9,14 @@ namespace BinaryTreeExamples
         {
 
 
-          
 
-            //  BinNode<int> root = new BinNode<int>(54);
-            //  BinNode<int> left = new BinNode<int>(null, 77, new BinNode<int>(55));
-            //  BinNode<int> right = new BinNode<int>(new BinNode<int>(63), 48, null);
-            //  root.SetRight(right);
-            //  root.SetLeft(left);
+            
+            BinNode<int> root = new BinNode<int>(54);
+            BinNode<int> left = new BinNode<int>(null, 77, new BinNode<int>(55));
+            BinNode<int> right = new BinNode<int>(new BinNode<int>(63), 48, null);
+              root.SetRight(right);
+              root.SetLeft(left);
+            BTHelper.PrintInLevel(root, 2);
             //  Console.WriteLine("InOrder:");
             //  BTHelper.PrintInOrder(root);
             //  Console.WriteLine();
