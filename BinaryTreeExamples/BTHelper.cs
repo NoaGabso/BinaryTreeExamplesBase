@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Emit;
 //using System.Collections.Generic;
 using System.Text;
 using DataStructureCore;
@@ -424,7 +425,61 @@ namespace BinaryTreeExamples
             }
         }
 
+        public static int WhichWidth(BinNode<int> root)
+        {
+            if (root == null)
+                Console.WriteLine("null");
+            int count = 0;
+            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            Queue<int> counts1 = new Queue<int>();
+            Queue<int> counts2 = new Queue<int>();
+            queue.Insert(root);
+            counts1.Insert(count);
+            while (!queue.IsEmpty())
+            {
+                
+               node = queue.Remove();
+                count = counts1.Remove();
+                counts2.Insert(count);  
+             
+                if (node.HasLeft())
+                {
+                    queue.Insert(node.GetLeft());
+                    //נכניס את הרמה הבאה
+                    counts1.Insert(count + 1);
+                }
+                if (node.HasRight())
+                {
+                    queue.Insert(node.GetRight());
+                    counts1.Insert(count + 1);
+                }
+            }
+            int max = 0; 
+            int counter=0;
+           
+            int m = BinTreeHight(root);
+            Queue<int> countsmax = new Queue<int>();
+            for (int i = 0; i <= m+1; i++)
+            { while (!counts2.IsEmpty())
+                {
+                    counter = 0;
+                    int x = counts2.Remove();
+                    if (x == i)
+                    { counter++; }
+                    countsmax.Insert(x);
+                }
+                if (max < counter)
+                    max = counter;
+               
+                while (!countsmax.IsEmpty())
+                {
+                    counts2.Insert(countsmax.Remove());
+                } 
 
+            }
+            return max;
+        }
         /// <summary>
         /// עמ 176 שאלה 9 מהספר
         /// </summary>

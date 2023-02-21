@@ -16,7 +16,7 @@ namespace BinaryTreeExamples
             BinNode<int> right = new BinNode<int>(new BinNode<int>(63), 48, null);
               root.SetRight(right);
               root.SetLeft(left);
-            Console.WriteLine(BTHelper.DiffrenceBetweenLeven(root, 63, 54)  );
+            Console.WriteLine(BTHelper.WhichWidth(root));
             //  Console.WriteLine("InOrder:");
             //BTHelper.PrintPreOrder(root);
             //  Console.WriteLine();
