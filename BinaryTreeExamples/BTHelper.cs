@@ -460,7 +460,7 @@ namespace BinaryTreeExamples
            
             int m = BinTreeHight(root);
             Queue<int> countsmax = new Queue<int>();
-            for (int i = 0; i <= m+1; i++)
+            for (int i = 0; i <= m; i++)
             { while (!counts2.IsEmpty())
                 {
                     counter = 0;
