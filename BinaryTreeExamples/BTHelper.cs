@@ -319,6 +319,27 @@ namespace BinaryTreeExamples
             return max;
         }
 
+        public static int MinBreadthSearch(BinNode<int> root)
+        {
+            int min = root.GetValue();
+            Queue<BinNode<int>> queue = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            queue.Insert(root);
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                //Console.WriteLine(node.GetValue());
+                if (node.GetValue()< min)
+                    min = node.GetValue();
+                if (node.HasLeft())
+                    queue.Insert(node.GetLeft());
+                if (node.HasRight())
+                    queue.Insert(node.GetRight());
+
+            }
+            return min;
+        }
+       
        public static int WhichLevel<T>(BinNode<T> root, T x)
             {
                 if (root == null)
@@ -703,7 +724,19 @@ namespace BinaryTreeExamples
         /// <returns></returns>
         public static bool IsBST(BinNode<int> t)
         {
-            return false;
+            if (t == null)
+                return true;
+            if (t.HasLeft())
+            {
+                if (t.GetValue() <= MaxBreadthSearch(t.GetLeft()))
+                    return false;
+            }
+           if(t.HasRight())
+            {
+                if (t.GetValue() > MinBreadthSearch(t.GetRight()))
+                    return false;
+            }
+            return IsBST(t.GetLeft()) && IsBST(t.GetRight());
 
         }
 
