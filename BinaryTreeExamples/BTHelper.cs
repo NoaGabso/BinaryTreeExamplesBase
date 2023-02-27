@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design.Serialization;
 using System.Reflection.Emit;
 //using System.Collections.Generic;
 using System.Text;
@@ -71,7 +72,6 @@ namespace BinaryTreeExamples
 
         #endregion
 
-
         #region סריקות
         #region סריקה תחילית
         /// <summary>
@@ -131,8 +131,6 @@ namespace BinaryTreeExamples
         }
         #endregion
         #endregion
-
-
 
         #region האם עלה
         public static bool IsLeaf<T>(BinNode<T> root)
@@ -531,7 +529,6 @@ namespace BinaryTreeExamples
 
         #endregion
 
-
         #region גובה עץ
         /// <summary>
         /// פעולה המחשבת את גובה העץ בסריקה סופית
@@ -677,10 +674,15 @@ namespace BinaryTreeExamples
         #region Binary Search Tree
 
         #region הוספת ערך לעץ חיפוש
-        public static void AddToBST(BinNode<int> t, int x)
+        public static BinNode<int> AddToBST(BinNode<int> t, int x)
         {
-            //
-
+            if(t==null)
+                return new BinNode<int>(x);
+            if(t.GetValue()>x)
+                t.SetLeft(AddToBST(t.GetLeft(), x));
+           else
+                t.SetRight(AddToBST(t.GetRight(), x));
+            return t;
         }
         #endregion
 
