@@ -794,4 +794,34 @@ namespace BinaryTreeExamples
             return IsZigzag(root.GetLeft(), true) && IsZigzag(root.GetRight(), false);
         }
 
+        public static bool IsSortedLayers(BinNode<int> root)
+        {
+            if(root==null)
+                return true;
+            int sumbefore = root.GetValue(), sumcurrent = 0, level = 0;
+            Queue<BinNode<int>> nodes = new Queue<BinNode<int>>();
+            BinNode<int> node;
+            Queue<int> levels=new Queue<int>();
+            nodes.Insert(root);
+            levels.Insert(0);
+            while (!nodes.IsEmpty())
+            {
+                node = nodes.Remove();
+                level = levels.Remove();
+                if (node.HasLeft())
+                {   nodes.Insert(node.GetLeft());
+                sumcurrent += node.GetLeft().GetValue();
+                levels.Insert(level + 1);
+            }
+            if (node.HasRight())
+            { nodes.Insert(node.GetRight());
+                        sumcurrent += node.GetRight().GetValue();
+                    levels.Insert(level+1);
+
+            }
+               
+              
+
+            }
+        }
 } }
