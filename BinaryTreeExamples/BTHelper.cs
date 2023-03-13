@@ -144,27 +144,27 @@ namespace BinaryTreeExamples
 
         public static bool UpPath(BinNode<int> root)
         {
-            if(root==null)
+            if (root == null)
                 return false;
-            if(IsLeaf(root))
+            if (IsLeaf(root))
                 return true;
-            bool left=false;
-            bool right=false;
-            if(root.HasLeft())
+            bool left = false;
+            bool right = false;
+            if (root.HasLeft())
             {
-                if(root.GetValue()<root.GetLeft().GetValue())
-                    left=true;
+                if (root.GetValue() < root.GetLeft().GetValue())
+                    left = true;
             }
             if (root.HasRight())
             {
                 if (root.GetValue() < root.GetRight().GetValue())
                     right = true;
             }
-            if(left||right)
-                return UpPath(root.GetLeft())||UpPath(root.GetRight());
+            if (left || right)
+                return UpPath(root.GetLeft()) || UpPath(root.GetRight());
             return false;
         }
-      
+
         //פעולה המקבלת עץ בינארי של אותיות קטנות ומעדכנת את הערכים של כל הצמתים להיות האות העוקבת באופן מעגלי
         public static void UpdateLetters(BinNode<char> root)
         {
@@ -329,7 +329,7 @@ namespace BinaryTreeExamples
             {
                 node = queue.Remove();
                 //Console.WriteLine(node.GetValue());
-                if (node.GetValue()< min)
+                if (node.GetValue() < min)
                     min = node.GetValue();
                 if (node.HasLeft())
                     queue.Insert(node.GetLeft());
@@ -339,47 +339,47 @@ namespace BinaryTreeExamples
             }
             return min;
         }
-       
-       public static int WhichLevel<T>(BinNode<T> root, T x)
-            {
-                if (root == null)
-                    return -1;
-                int level = 0;
-                Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
-                BinNode<T> node;
-                Queue<int> levels = new Queue<int>();
-                queue.Insert(root);
-                levels.Insert(level);
-                while (!queue.IsEmpty())
-                {
-                    node = queue.Remove();
-                    //נשלוף את הרמה של הצומת
-                    level = levels.Remove();
-                    if (node.GetValue().Equals(x))
-                        return level;
-                    if (node.HasLeft())
-                    {
-                        queue.Insert(node.GetLeft());
-                        //נכניס את הרמה הבאה
-                        levels.Insert(level + 1);
-                    }
-                    if (node.HasRight())
-                    {
-                        queue.Insert(node.GetRight());
-                        levels.Insert(level + 1);
-                    }
 
-
-                }
+        public static int WhichLevel<T>(BinNode<T> root, T x)
+        {
+            if (root == null)
                 return -1;
+            int level = 0;
+            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+            BinNode<T> node;
+            Queue<int> levels = new Queue<int>();
+            queue.Insert(root);
+            levels.Insert(level);
+            while (!queue.IsEmpty())
+            {
+                node = queue.Remove();
+                //נשלוף את הרמה של הצומת
+                level = levels.Remove();
+                if (node.GetValue().Equals(x))
+                    return level;
+                if (node.HasLeft())
+                {
+                    queue.Insert(node.GetLeft());
+                    //נכניס את הרמה הבאה
+                    levels.Insert(level + 1);
+                }
+                if (node.HasRight())
+                {
+                    queue.Insert(node.GetRight());
+                    levels.Insert(level + 1);
+                }
 
 
             }
+            return -1;
 
-        public static int DiffrenceBetweenLeven(BinNode<int> root,int x, int y)
+
+        }
+
+        public static int DiffrenceBetweenLeven(BinNode<int> root, int x, int y)
         {
-            x= WhichLevel(root,x);
-            y= WhichLevel(root,y);
+            x = WhichLevel(root, x);
+            y = WhichLevel(root, y);
             return x - y;
         }
         public static void PrintInLevel<T>(BinNode<T> root, T x)
@@ -427,7 +427,7 @@ namespace BinaryTreeExamples
                 node = queue.Remove();
                 //נשלוף את הרמה של הצומת
                 level = levels.Remove();
-                if (level%2==0)
+                if (level % 2 == 0)
                     Console.WriteLine(node.GetValue());
                 if (node.HasRight())
                 {
@@ -440,7 +440,7 @@ namespace BinaryTreeExamples
                     //נכניס את הרמה הבאה
                     levels.Insert(level + 1);
                 }
-               
+
             }
         }
 
@@ -457,11 +457,11 @@ namespace BinaryTreeExamples
             counts1.Insert(count);
             while (!queue.IsEmpty())
             {
-                
-               node = queue.Remove();
+
+                node = queue.Remove();
                 count = counts1.Remove();
-                counts2.Insert(count);  
-             
+                counts2.Insert(count);
+
                 if (node.HasLeft())
                 {
                     queue.Insert(node.GetLeft());
@@ -474,9 +474,9 @@ namespace BinaryTreeExamples
                     counts1.Insert(count + 1);
                 }
             }
-            int max = 0; 
-            int counter=0;
-           
+            int max = 0;
+            int counter = 0;
+
             int m = BinTreeHight(root);
             Queue<int> countsmax = new Queue<int>();
             for (int i = 0; i <= m; i++)
@@ -490,11 +490,11 @@ namespace BinaryTreeExamples
                 }
                 if (max < counter)
                     max = counter;
-               
+
                 while (!countsmax.IsEmpty())
                 {
                     counts2.Insert(countsmax.Remove());
-                } 
+                }
 
             }
             return max;
@@ -559,7 +559,7 @@ namespace BinaryTreeExamples
         /// <typeparam name="T"></typeparam>
         /// <param name="root"></param>
         /// <returns></returns>
-      
+
         #endregion
 
         #region הדפסת רמה בעץ
@@ -697,11 +697,11 @@ namespace BinaryTreeExamples
         #region הוספת ערך לעץ חיפוש
         public static BinNode<int> AddToBST(BinNode<int> t, int x)
         {
-            if(t==null)
+            if (t == null)
                 return new BinNode<int>(x);
-            if(t.GetValue()>x)
+            if (t.GetValue() > x)
                 t.SetLeft(AddToBST(t.GetLeft(), x));
-           else
+            else
                 t.SetRight(AddToBST(t.GetRight(), x));
             return t;
         }
@@ -731,7 +731,7 @@ namespace BinaryTreeExamples
                 if (t.GetValue() <= MaxBreadthSearch(t.GetLeft()))
                     return false;
             }
-           if(t.HasRight())
+            if (t.HasRight())
             {
                 if (t.GetValue() > MinBreadthSearch(t.GetRight()))
                     return false;
@@ -772,14 +772,26 @@ namespace BinaryTreeExamples
 
             return root;
         }
-    }
 
 
 
 
-    #endregion
-    #endregion
 
-   
+        #endregion
+        #endregion
 
-}
+        public static bool IsZigzag<T>(BinNode<T> root)
+            {
+            if(root==null|| IsLeaf(root)) return false;
+            return IsZigzag(root.GetLeft(), true) && IsZigzag(root.GetRight(), false);
+            }
+        public static bool IsZigzag<T>(BinNode<T> root, bool isleft)
+        {
+            if(root==null|| IsLeaf(root)) return true;
+            if(isleft && !root.HasRight())
+                return false;
+            else if(!isleft && !root.HasLeft()) return false;
+            return IsZigzag(root.GetLeft(), true) && IsZigzag(root.GetRight(), false);
+        }
+
+} }
