@@ -857,7 +857,20 @@ namespace BinaryTreeExamples
             return true;//3 O(n)
 
         }
-              
+        public static void AvKadmon(BinNode<int> t)
+        {
+            AvKadmon(t, t.GetValue());
+        }
+        public static void AvKadmon(BinNode<int> t, int max)
+        {
+          if( t==null)return;
+           if(IsLeaf(t) && t.GetValue()>max)
+                Console.WriteLine(t.GetValue());
+           if(t.GetValue()>max)
+                max=t.GetValue();
+            AvKadmon(t.GetLeft(), max);
+            AvKadmon(t.GetRight(), max);
+        }
 
             }
         }
