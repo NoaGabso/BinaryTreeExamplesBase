@@ -827,12 +827,12 @@ namespace BinaryTreeExamples
                 {
             Queue<BinNode<int>> nodes = new Queue<BinNode<int>>();
             Queue<int> levels = new Queue<int>();
-            int[] SumLevels = new int[BinTreeHight(t)+1];
+            int[] SumLevels = new int[BinTreeHight(t)+1];//- פעולת עזר סיבוכיות O(n)
             int level = 0;
             BinNode<int> node;
             nodes.Insert(t);
             levels.Insert(0);
-            while(!nodes.IsEmpty())
+            while(!nodes.IsEmpty())// סיבוכיות O(n)
             {
                 node=nodes.Remove();
                 level=levels.Remove();
@@ -849,12 +849,12 @@ namespace BinaryTreeExamples
                 }
     
             }
-            for(int i = 0; i < SumLevels.Length-1; i++)
+            for(int i = 0; i < SumLevels.Length-1; i++)// גובה העץ בין n<logn
             {
                 if(SumLevels[i] > SumLevels[i+1])
                     return false;
             }
-            return true;
+            return true;//3 O(n)
 
         }
               
