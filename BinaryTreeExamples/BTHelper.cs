@@ -376,7 +376,7 @@ namespace BinaryTreeExamples
 
         }
 
-        public static int DiffrenceBetweenLeven(BinNode<int> root, int x, int y)
+        public static int DiffrenceBetweenLevel(BinNode<int> root, int x, int y)
         {
             x = WhichLevel(root, x);
             y = WhichLevel(root, y);
@@ -794,34 +794,71 @@ namespace BinaryTreeExamples
             return IsZigzag(root.GetLeft(), true) && IsZigzag(root.GetRight(), false);
         }
 
-        public static bool IsSortedLayers(BinNode<int> root)
-        {
-            if(root==null)
-                return true;
-            int sumbefore = root.GetValue(), sumcurrent = 0, level = 0;
-            Queue<BinNode<int>> nodes = new Queue<BinNode<int>>();
-            BinNode<int> node;
-            Queue<int> levels=new Queue<int>();
-            nodes.Insert(root);
-            levels.Insert(0);
-            while (!nodes.IsEmpty())
-            {
-                node = nodes.Remove();
-                level = levels.Remove();
-                if (node.HasLeft())
-                {   nodes.Insert(node.GetLeft());
-                sumcurrent += node.GetLeft().GetValue();
-                levels.Insert(level + 1);
-            }
-            if (node.HasRight())
-            { nodes.Insert(node.GetRight());
-                        sumcurrent += node.GetRight().GetValue();
-                    levels.Insert(level+1);
+        //public static bool IsSortedLayers(BinNode<int> root)
+        //{
+        //    if (root == null)
+        //        return true;
+        //    int sumbefore = root.GetValue(), sumcurrent = 0, level = 0;
+        //    Queue<BinNode<int>> nodes = new Queue<BinNode<int>>();
+        //    BinNode<int> node;
+        //    Queue<int> levels = new Queue<int>();
+        //    nodes.Insert(root);
+        //    levels.Insert(0);
+        //    while (!nodes.IsEmpty())
+        //    {
+        //        node = nodes.Remove();
+        //        level = levels.Remove();
+        //        if (node.HasLeft())
+        //        {
+        //            nodes.Insert(node.GetLeft());
+        //            sumcurrent += node.GetLeft().GetValue();
+        //            levels.Insert(level + 1);
+        //        }
+        //        if (node.HasRight())
+        //        {
+        //            nodes.Insert(node.GetRight());
+        //            sumcurrent += node.GetRight().GetValue();
+        //            levels.Insert(level + 1);
 
+        //        }
+        //    }
+        //}
+               public static bool SortedLayer(BinNode<int> t)
+                {
+            Queue<BinNode<int>> nodes = new Queue<BinNode<int>>();
+            Queue<int> levels = new Queue<int>();
+            int[] SumLevels = new int[BinTreeHight(t)+1];
+            int level = 0;
+            BinNode<int> node;
+            nodes.Insert(t);
+            levels.Insert(0);
+            while(!nodes.IsEmpty())
+            {
+                node=nodes.Remove();
+                level=levels.Remove();
+                SumLevels[level] += node.GetValue();
+                if (t.HasLeft())
+                {
+                    nodes.Insert(t.GetLeft());
+                    levels.Insert(level + 1);
+                }
+                if(t.HasRight())
+                    {
+                    nodes.Insert(t.GetRight());
+                    levels.Insert(level + 1);
+                }
+    
             }
-               
+            for(int i = 0; i < SumLevels.Length-1; i++)
+            {
+                if(SumLevels[i] > SumLevels[i+1])
+                    return false;
+            }
+            return true;
+
+        }
               
 
             }
         }
-} }
+
