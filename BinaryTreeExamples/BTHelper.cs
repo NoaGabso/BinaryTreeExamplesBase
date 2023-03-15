@@ -220,10 +220,11 @@ namespace BinaryTreeExamples
         public static int BinTreeHight<T>(BinNode<T> root)
         {
             if (root == null)
+                return -1;
+            if (!root.HasRight() && !root.HasLeft())
                 return 0;
-            if ((IsSingleParent(root) && IsSingleParent(root.GetLeft()) || IsSingleParent(root) && IsSingleParent(root.GetRight())))
-                return 1 + CountSingleParents(root.GetLeft()) + CountSingleParents(root.GetRight());
-            return CountSingleParents(root.GetLeft()) + CountSingleParents(root.GetRight());
+
+            return 1 + Math.Max(BinTreeHight(root.GetLeft()), BinTreeHight(root.GetRight()));
         }
         #region פעולות על עצים
         #region ספירת צמתים
@@ -256,6 +257,17 @@ namespace BinaryTreeExamples
             //או בשורש או בצד שמאל או בצד ימין
             return (root.GetValue().Equals(val)) || IsExistsInTree(root.GetLeft(), val) || IsExistsInTree(root.GetRight(), val);
 
+        }
+
+        public static int FindLevel(BinNode<T> root, T val)
+        {
+            return FindLevel(root, val, 0);
+        }
+        public static int FindLevel(BinNode<T> root, T val, int level)
+        {
+            if (root == null) return -1;
+            if (root.GetValue().Equals(val)) return level;
+            return FindLevel(root.GetLeft(), val, level + 1) || FindLevel(root.GetRight(), val, level + 1);
         }
         #endregion
         /// <summary>
@@ -480,7 +492,8 @@ namespace BinaryTreeExamples
             int m = BinTreeHight(root);
             Queue<int> countsmax = new Queue<int>();
             for (int i = 0; i <= m; i++)
-            { while (!counts2.IsEmpty())
+            {
+                while (!counts2.IsEmpty())
                 {
                     counter = 0;
                     int x = counts2.Remove();
@@ -503,7 +516,8 @@ namespace BinaryTreeExamples
         /// עמ 176 שאלה 9 מהספר
         /// </summary>
         /// <param name="root"></param>
-        public static void UpdateCharTree(BinNode<char> root)
+        public static void UpdateCharTree(BinNode<char> root)// פעולה המקבלת עץ בינארי של אותיות קטנות ומעדכנת את הערכים
+                                                             // של כל הצמתים להיות האות העוקבת באופן מעגלי
         {
 
             if (root != null)
@@ -781,16 +795,16 @@ namespace BinaryTreeExamples
         #endregion
 
         public static bool IsZigzag<T>(BinNode<T> root)
-            {
-            if(root==null|| IsLeaf(root)) return false;
+        {
+            if (root == null || IsLeaf(root)) return false;
             return IsZigzag(root.GetLeft(), true) && IsZigzag(root.GetRight(), false);
-            }
+        }
         public static bool IsZigzag<T>(BinNode<T> root, bool isleft)
         {
-            if(root==null|| IsLeaf(root)) return true;
-            if(isleft && !root.HasRight())
+            if (root == null || IsLeaf(root)) return true;
+            if (isleft && !root.HasRight())
                 return false;
-            else if(!isleft && !root.HasLeft()) return false;
+            else if (!isleft && !root.HasLeft()) return false;
             return IsZigzag(root.GetLeft(), true) && IsZigzag(root.GetRight(), false);
         }
 
@@ -823,55 +837,147 @@ namespace BinaryTreeExamples
         //        }
         //    }
         //}
-               public static bool SortedLayer(BinNode<int> t)
-                {
+        public static bool SortedLayer(BinNode<int> t)
+        {
             Queue<BinNode<int>> nodes = new Queue<BinNode<int>>();
             Queue<int> levels = new Queue<int>();
-            int[] SumLevels = new int[BinTreeHight(t)+1];//- פעולת עזר סיבוכיות O(n)
+            int[] SumLevels = new int[BinTreeHight(t) + 1];//- פעולת עזר סיבוכיות O(n)
             int level = 0;
             BinNode<int> node;
             nodes.Insert(t);
             levels.Insert(0);
-            while(!nodes.IsEmpty())// סיבוכיות O(n)
+            while (!nodes.IsEmpty())// סיבוכיות O(n)
             {
-                node=nodes.Remove();
-                level=levels.Remove();
+                node = nodes.Remove();
+                level = levels.Remove();
                 SumLevels[level] += node.GetValue();
                 if (t.HasLeft())
                 {
                     nodes.Insert(t.GetLeft());
                     levels.Insert(level + 1);
                 }
-                if(t.HasRight())
-                    {
+                if (t.HasRight())
+                {
                     nodes.Insert(t.GetRight());
                     levels.Insert(level + 1);
                 }
-    
+
             }
-            for(int i = 0; i < SumLevels.Length-1; i++)// גובה העץ בין n<logn
+            for (int i = 0; i < SumLevels.Length - 1; i++)// גובה העץ בין n<logn
             {
-                if(SumLevels[i] > SumLevels[i+1])
+                if (SumLevels[i] > SumLevels[i + 1])
                     return false;
             }
             return true;//3 O(n)
 
         }
-        public static void AvKadmon(BinNode<int> t)
+        public static void AvKadmon(BinNode<int> t)//עלה יותר גדול מהאב הקדמון שלו במאותו מסלול
         {
             AvKadmon(t, t.GetValue());
         }
         public static void AvKadmon(BinNode<int> t, int max)
         {
-          if( t==null)return;
-           if(IsLeaf(t) && t.GetValue()>max)
+            if (t == null) return;
+            if (IsLeaf(t) && t.GetValue() > max)
                 Console.WriteLine(t.GetValue());
-           if(t.GetValue()>max)
-                max=t.GetValue();
+            if (t.GetValue() > max)
+                max = t.GetValue();
             AvKadmon(t.GetLeft(), max);
             AvKadmon(t.GetRight(), max);
         }
 
-            }
+        public static bool IsOmega(BinNode<int> t)
+        {
+            if (t == null) return true;
+            if (IsLeaf(t)) return true;
+            if ((t.HasLeft() && !t.HasRight()) ||
+                (!t.HasLeft() && t.HasRight()))
+                return false;
+
+
+            if (!(Sum(t.GetLeft()) >= t.GetValue() && Sum(t.GetRight()) <= t.GetValue()))
+                return false;
+
+            return IsOmega(t.GetLeft()) && IsOmega(t.GetRight());
         }
+        public static int Sum(BinNode<int> t)
+        {
+            if (t == null) return 0;
+            return t.GetValue() + Sum(t.GetLeft()) + Sum(t.GetRight());
+        }
+
+        //כתוב פעולה שמקבלת עץ בינרי ומחזירה נכון אם כל העצים עם הערכים
+        //הזוגיים נמצאים ברמות זוגיות ואי זוגיים ברמות אי זוגיות, אחרת לא נכון
+        public static bool ZogiEiZogi(BinNode<int> t)
+        {
+            ZogiEiZogi(t, 0);
+        }
+        public static bool ZogiEiZogi(BinNode<int> t, int level)
+        {
+            if (t == null) return true;
+            if (t.GetValue() % 2 == 0 && level % 2 == 0 ||
+                t.GetValue() % 2 == 1 && level % 2 == 1)
+            {
+                return ZogiEiZogi(t.GetLeft(), level + 1) &&
+                 ZogiEiZogi(t.GetRight(), level + 1);
+            }
+            return false;
+        }
+        public static bool IsBoser(BinNode<int> t)
+        {
+            if (IsLeaf(t)) return true;
+            if (t == null) return true;
+            if (t.HasLeft() && t.HasRight())
+            {
+                int r = t.GetRight().GetValue();
+                int l = t.GetLeft().GetValue();
+                int val = t.GetValue();
+                if (!(r > l))
+                {
+                    if (val >= r || val >= l)
+                        return false;
+
+                    return IsBoser(t.GetLeft()) && IsBoser(t.GetRight());
+                }
+            }
+            else
+                return false;
+
+        }
+        public static void AvVeBanav(BinNode<int> t)
+        {
+            if(t==null) return;
+            if (t.hasleft())
+            {
+                if (t.Getvalue() == t.getleft().getvalue())
+                {
+                    t.setleft(ISexist(t.getleft(), t.getleft().getvalue() + 1));
+
+                }
+            }
+                if (t.hasRight())
+                {
+                    if (t.Getvalue() == t.getright().getvalue())
+                    {
+                        t.setRight(ISexist(t.getrightt(), t.getright().getvalue() + 1));
+
+                    }
+                }
+
+            AvVeBanav(t.getleft());
+            AvVeBanav(t.getright());
+                
+        }
+        public static int ISexist(BinNode<int> t,int x)
+        {
+            if(t==null) return 0;
+            if (t.getValue() == x)
+            {
+                x++;
+            }
+            return ISexist(t.getleft(),x)+ ISexist(t.getright(),x);
+
+        }
+    }
+}
 
